@@ -1,0 +1,11 @@
+Hello World from the templates!
+
+{% if lists %}
+    <ul>
+        {% for list in lists %}
+            <li>{{ list }}</li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No grocery lists available.</p>
+{% endif %}
