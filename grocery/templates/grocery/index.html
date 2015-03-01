@@ -53,16 +53,28 @@
     </nav>
 
     <div class="container" style="margin-top: 80px;">
-
-        {% if lists %}
-            <ul>
-                {% for list in lists %}
-                    <li>{{ list }}</li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            <p>No grocery lists available.</p>
-        {% endif %}
+      {% if lists %}
+        <table class="table table-condensed">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Desc</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for list in lists %}
+            <tr>
+              <th scope="row">{{ list.id }}</th>
+              <td>{{ list.title }}</td>
+              <td>{{ list.status }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      {% else %}
+        <p>No grocery lists available.</p>
+      {% endif %}
 
     </div><!-- /.container -->
 
