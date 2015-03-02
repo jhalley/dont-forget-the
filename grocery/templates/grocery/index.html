@@ -62,7 +62,26 @@
           </button>
         </div><!-- /.col -->
       </div><!-- /.row -->
-    </div>
+      <div class="row">
+        <div class="col-md-12">
+          <table class="table table-striped" ng-show="list_items.length">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Desc</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="li in list_items" ng-click="">
+                <th scope="row">{{ li.id }}</th>
+                <td>{{ li.desc }}</td>
+              </tr>
+            </tbody>
+          </table>
+          <p ng-hide="list_items.length">No items available.</p>
+        </div><!-- /.col -->
+      </div><!-- /.row -->
+    </div><!-- /.container -->
 
     <div id="list_view" class="container-fluid" style="margin-top: 80px;" ng-show="view_mode == 'lists'">
       <div class="row">
