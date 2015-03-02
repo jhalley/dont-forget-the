@@ -38,6 +38,10 @@ angular.module('groceryApp', ['ngTouch'])
          // this callback will be called asynchronously
          // when the response is available
          $scope.list_items = data['data'];
+         
+         setTimeout(function(){ // Polling
+             $scope.get_list_items($scope.list_selected);
+         }, 3000);
        }).
        error(function(data, status, headers, config) {
          // called asynchronously if an error occurs
