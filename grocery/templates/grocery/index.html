@@ -64,7 +64,7 @@
       </div><!-- /.row -->
       <div class="row">
         <div class="col-md-12">
-          <table class="table table-striped" ng-show="list_items.length">
+          <table class="table" ng-show="list_items.length">
             <thead>
               <tr>
                 <th>#</th>
@@ -72,7 +72,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr ng-repeat="li in list_items" ng-click="">
+              <tr ng-repeat="li in list_items" ng-click="toggle_list_item_status(li)" ng-class="{'success': li.bought}">
                 <th scope="row">{{ li.id }}</th>
                 <td>{{ li.desc }}</td>
               </tr>

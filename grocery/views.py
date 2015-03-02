@@ -23,6 +23,26 @@ API_RETURN_DATA_FORMAT = {
 }
 
 @csrf_exempt
+def list_item(request, list_item_id, action):
+    return_data = copy.deepcopy(API_RETURN_DATA_FORMAT)
+    
+    if request.method == 'GET':
+        if action == 'toggle': 
+            li = List_Item.objects.get(id = int(list_item_id))
+            li.bought = not li.bought
+            li.save()
+            
+            return HttpResponse(json.dumps(return_data), content_type="application/json")
+        else:
+            return_data['status'] = 'ERROR'
+            return_data['status_message'] = 'Request action not supported'
+            return HttpResponse(json.dumps(return_data))
+    else:
+        return_data['status'] = 'ERROR'
+        return_data['status_message'] = 'Request method not supported'
+        return HttpResponse(json.dumps(return_data))
+
+@csrf_exempt
 def list(request, list_id = None):
     return_data = copy.deepcopy(API_RETURN_DATA_FORMAT)
     
@@ -41,6 +61,7 @@ def list(request, list_id = None):
             for i in List_Item.objects.filter(list_id = int(list_id)):
                 return_data['data'].append({
                     'id': i.id,
+                    'l_id': int(list_id),
                     'desc': i.item.desc,
                     'bought': i.bought,
                 })
