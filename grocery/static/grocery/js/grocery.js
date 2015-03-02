@@ -7,6 +7,7 @@ angular.module('groceryApp', ['ngTouch'])
     var d = new Date();
     $scope.new_list_name = 'Grocery List ' + d.getFullYear() + '-' + ('0' + (d.getMonth()+1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2);
     $scope.list = []
+    $scope.view_mode = 'lists'; // lists, List_items
     
     // INIT
     $scope.get_list = function(){
@@ -25,6 +26,10 @@ angular.module('groceryApp', ['ngTouch'])
     $scope.get_list();
       
     // Functions
+    $scope.view_list_items = function(l){
+      $scope.view_mode = 'list_items';
+    }
+    
     $scope.add_new_list = function(){
       $http.post('/grocery/api/list/', {
           name: $scope.new_list_name,

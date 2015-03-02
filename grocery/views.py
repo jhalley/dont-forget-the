@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.template import RequestContext, loader
 from django.views.decorators.csrf import csrf_exempt    # Because it's a pain to do this with mobile
 import json
+import copy
 
 from grocery.models import *
 
@@ -14,25 +15,38 @@ def index(request):
     return render(request, 'grocery/index.html', context)
     
 # API
+API_RETURN_DATA_FORMAT = {
+    'data': [],
+    'len': 0,
+    'status': 'OK',
+    'status_message': 'OK',
+}
+
 @csrf_exempt
-def list(request):
-    return_data = {
-        'data': [],
-        'len': 0,
-        'status': 'OK',
-        'status_message': 'OK',
-    }
+def list(request, list_id = None):
+    return_data = copy.deepcopy(API_RETURN_DATA_FORMAT)
     
     if request.method == 'GET':
-        for i in List.objects.all():
-            return_data['data'].append({
-                'id': i.id,
-                'title': i.title,
-                'status': i.status
-            })
-        return_data['len'] = len(return_data['data'])
-        
-        return HttpResponse(json.dumps(return_data), content_type="application/json")
+        if not list_id: # Get a list of all the lists
+            for i in List.objects.all():
+                return_data['data'].append({
+                    'id': i.id,
+                    'title': i.title,
+                    'status': i.status
+                })
+            return_data['len'] = len(return_data['data'])
+            
+            return HttpResponse(json.dumps(return_data), content_type="application/json")
+        elif list_id:
+            for i in List_Item.objects.filter(list_id = int(list_id)):
+                return_data['data'].append({
+                    'id': i.id,
+                    'desc': i.item.desc,
+                    'bought': i.bought,
+                })
+                
+            return_data['len'] = len(return_data['data'])
+            return HttpResponse(json.dumps(return_data), content_type="application/json")
     elif request.method == 'POST':
         l = List(title=json.loads(request.body)['name'], status=List.OPEN)
         l.save()

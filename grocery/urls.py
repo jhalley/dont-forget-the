@@ -6,4 +6,5 @@ urlpatterns = patterns('',
     
     # api stuff
     url(r'^api/list/$', views.list, name='list'),
+    url(r'^api/list/(?P<list_id>\d*)/$', views.list, name='list'),
 )

@@ -14,6 +14,7 @@
     {% load staticfiles %}
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="{% static "grocery/css/bootswatch-sandstone.min.css" %}">
+    <link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
     
     <!-- Angular stuff-->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
@@ -49,12 +50,25 @@
         </div><!--/.nav-collapse -->
       </div>
     </nav>
+    
+    <div id="list_item_view" class="container-fluid" style="margin-top: 80px;" ng-show="view_mode == 'list_items'">
+      <div class="row">
+        <div class="col-md-12">
+          <button class="btn btn-default" ng-click="view_mode = 'lists'">
+            <span class="glyphicon glyphicon-chevron-left" aria-hidden="true" style="padding-right: 5px; font-weight: bolder;"></span> Back
+          </button>
+          <button class="btn btn-primary" data-toggle="modal" data-target="#addNewListItemModal">
+            <span class="glyphicon glyphicon-plus" aria-hidden="true" style="padding-right: 5px; font-weight: bolder;"></span> New Item
+          </button>
+        </div><!-- /.col -->
+      </div><!-- /.row -->
+    </div>
 
-    <div id="list_view" class="container-fluid" style="margin-top: 80px;">
+    <div id="list_view" class="container-fluid" style="margin-top: 80px;" ng-show="view_mode == 'lists'">
       <div class="row">
         <div class="col-md-12">
           <button class="btn btn-primary" data-toggle="modal" data-target="#addNewListModal">
-            <span class="glyphicon glyphicon-plus" aria-hidden="true" style="font-size: x-large; padding-right: 5px; font-weight: bolder;"></span> Add
+            <span class="glyphicon glyphicon-plus" aria-hidden="true" style="padding-right: 5px; font-weight: bolder;"></span> New Grocery List
           </button>
         </div><!-- /.col -->
       </div><!-- /.row -->
@@ -69,7 +83,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr ng-repeat="l in list">
+              <tr ng-repeat="l in list" ng-click="view_list_items(l)">
                 <th scope="row">{{ l.id }}</th>
                 <td>{{ l.title }}</td>
                 <td>{{ l.status }}</td>
