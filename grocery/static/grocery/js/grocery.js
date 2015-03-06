@@ -18,11 +18,13 @@ angular.module('groceryApp', ['ngTouch'])
     }
     
     $scope.toggle_list_item_status = function(li){
+      li.bought = !li.bought;
       $http.get('/grocery/api/list_item/' + li.id + '/toggle/').
        success(function(data, status, headers, config) {
          // this callback will be called asynchronously
          // when the response is available
-         $scope.get_list_items($scope.list_selected);
+         //$scope.get_list_items($scope.list_selected);
+         console.log('Success');
        }).
        error(function(data, status, headers, config) {
          // called asynchronously if an error occurs
