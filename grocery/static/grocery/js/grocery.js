@@ -6,6 +6,7 @@ angular.module('groceryApp', ['ngTouch'])
     // MAIN VARIABLES 
     var d = new Date();
     $scope.new_list_name = 'Grocery List ' + d.getFullYear() + '-' + ('0' + (d.getMonth()+1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2);
+    $scope.new_list_item_name = '';
     $scope.list_selected = '';
     $scope.list = [];
     $scope.list_items = [];
@@ -51,6 +52,26 @@ angular.module('groceryApp', ['ngTouch'])
          alert('Error accessing site. Please refresh page.')
        });
     };
+    
+    $scope.add_new_list_item = function(){
+      $http.post('/grocery/api/list_item/', {
+          name: $scope.new_list_item_name,
+          l_id: $scope.list_selected.id,
+        }, {
+          headers: {'X-CSRFToken': $.cookie('csrftoken')},
+        }).
+        success(function(data, status, headers, config) {
+          // this callback will be called asynchronously
+          // when the response is available
+          $scope.get_list_items($scope.list_selected);
+          $('#addNewListItemModal').modal('toggle');
+        }).
+        error(function(data, status, headers, config) {
+          // called asynchronously if an error occurs
+          // or server returns response with an error status.
+          alert('Error creating new list item.')
+        });
+    }
     
     $scope.add_new_list = function(){
       $http.post('/grocery/api/list/', {

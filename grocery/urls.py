@@ -7,5 +7,6 @@ urlpatterns = patterns('',
     # api stuff
     url(r'^api/list/$', views.list, name='list'),
     url(r'^api/list/(?P<list_id>\d*)/$', views.list, name='list'),
+    url(r'^api/list_item/$', views.list_item, name='list_item'),
     url(r'^api/list_item/(?P<list_item_id>\d+)/(?P<action>\w+)/$', views.list_item, name='list_item'),
 )

@@ -23,7 +23,7 @@ API_RETURN_DATA_FORMAT = {
 }
 
 @csrf_exempt
-def list_item(request, list_item_id, action):
+def list_item(request, list_item_id = -1, action = ''):
     return_data = copy.deepcopy(API_RETURN_DATA_FORMAT)
     
     if request.method == 'GET':
@@ -37,6 +37,15 @@ def list_item(request, list_item_id, action):
             return_data['status'] = 'ERROR'
             return_data['status_message'] = 'Request action not supported'
             return HttpResponse(json.dumps(return_data))
+    elif request.method == 'POST':
+        d = json.loads(request.body)
+        i = Item(desc=d['name'])
+        i.save()
+        
+        li = List_Item(item=i, list=List.objects.get(id=int(d['l_id'])))
+        li.save()
+        #l = List(title = 
+        return HttpResponse(json.dumps(return_data))
     else:
         return_data['status'] = 'ERROR'
         return_data['status_message'] = 'Request method not supported'
