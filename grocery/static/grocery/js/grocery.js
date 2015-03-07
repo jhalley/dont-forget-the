@@ -63,7 +63,8 @@ angular.module('groceryApp', ['ngTouch'])
         success(function(data, status, headers, config) {
           // this callback will be called asynchronously
           // when the response is available
-          $scope.get_list_items($scope.list_selected);
+          $scope.get_list_items($scope.list_selected);  // todo: need to make this more efficient
+          $scope.new_list_item_name = '';
           $('#addNewListItemModal').modal('toggle');
         }).
         error(function(data, status, headers, config) {
