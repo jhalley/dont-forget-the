@@ -73,7 +73,7 @@
             </thead>
             <tbody>
               <tr ng-repeat="li in list_items" ng-click="toggle_list_item_status(li)" ng-class="{'success': li.bought}">
-                <th scope="row">{{ li.id }}</th>
+                <th scope="row">{{ $index + 1 }}</th>
                 <td>{{ li.desc }}</td>
               </tr>
             </tbody>
@@ -102,8 +102,8 @@
               </tr>
             </thead>
             <tbody>
-              <tr ng-repeat="l in list" ng-click="view_list_items(l)">
-                <th scope="row">{{ l.id }}</th>
+              <tr ng-repeat="l in list" ng-click="view_list_items(l)" ng-swipe-left="alert('left');">
+                <th scope="row">{{ $index + 1 }}</th>
                 <td>{{ l.title }}</td>
                 <td>{{ l.status }}</td>
               </tr>
