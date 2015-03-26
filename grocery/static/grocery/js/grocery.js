@@ -11,8 +11,15 @@ angular.module('groceryApp', ['ngTouch'])
     $scope.list = [];
     $scope.list_items = [];
     $scope.view_mode = 'lists'; // lists, List_items
+    $scope.recurring_get_list_items = false;
     
     // Functions
+    $scope.view_lists = function(){
+      $scope.view_mode = 'lists';
+      clearInterval($scope.recurring_get_list_items);
+      $scope.recurring_get_list_items = false;
+    }
+    
     $scope.view_list_items = function(l){
       $scope.get_list_items(l);
       $scope.view_mode = 'list_items';
@@ -38,13 +45,15 @@ angular.module('groceryApp', ['ngTouch'])
       $scope.list_selected = l;
       $http.get('/grocery/api/list/' + l.id).
        success(function(data, status, headers, config) {
-         // this callback will be called asynchronously
-         // when the response is available
-         $scope.list_items = data['data'];
-         
-         setTimeout(function(){ // Polling
-             $scope.get_list_items($scope.list_selected);
-         }, 3000);
+          // this callback will be called asynchronously
+          // when the response is available
+          $scope.list_items = data['data'];
+          
+          if (!$scope.recurring_get_list_items && $scope.view_mode == 'list_items'){
+            $scope.recurring_get_list_items = setInterval(function(){ // Polling
+                $scope.get_list_items($scope.list_selected);
+            }, 3000);
+          };
        }).
        error(function(data, status, headers, config) {
          // called asynchronously if an error occurs
